@@ -1,0 +1,196 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans:500,700&display=swap');
+
+@media (pointer: fine) {
+    .custom-cursor {
+        display: block; /* Asegura que se muestre en dispositivos con mouse */
+}
+	#background-video {
+    position: fixed; /* Fija el video en la ventana del navegador, sin importar el scroll */
+    top: 0;          /* Lo ancla a la parte superior */
+    left: 0;         /* Lo ancla a la izquierda */
+    width: 100%;     /* Hace que ocupe todo el ancho de la ventana */
+    height: 100%;    /* Hace que ocupe todo el alto de la ventana */
+    object-fit: cover; /* **CRÍTICO:** Esto hace que el video cubra todo el espacio sin distorsionarse, recortando los bordes si es necesario (como 'background-size: cover' para imágenes) */
+    z-index: -1;     /* **CRÍTICO:** Envía el video detrás de todo el contenido de la página */
+    background-color: black; /* Color de fondo si el video tarda en cargar o no se reproduce */
+	
+}
+
+/* Opcional: Capa oscura semi-transparente sobre el video para mejorar la legibilidad del texto */
+/* Esto puede ser útil si tu video es muy brillante o tiene mucho contraste */
+#background-video::after {
+    content: '';
+    position: fixed; /* También fija la capa a la ventana */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 1.5); /* Capa semitransparente negra (ajusta 0.4 para más/menos opacidad) */
+    z-index: 0; /* Se sitúa entre el video (-1) y tu contenido (cualquier z-index positivo) */
+    pointer-events: none; /* **CRÍTICO:** Permite que los clics y el mouse pasen a través de esta capa */
+}
+	
+.custom-cursor { /* Usamos esta clase para el cursor base */
+    width: 25px; /* Tamaño base */
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none; /* ¡CRÍTICO! Permite que los clics pasen a través del cursor */
+    z-index: 9999; /* Asegura que esté siempre encima de todo */
+    top: 0;
+    left: 0;
+    opacity: 1; /* Hacemos el cursor visible por defecto */
+    filter: blur(4px);
+    transform: translate(-50%, -50%); /* Centra el cursor con las coordenadas del ratón */
+    /* Añadimos transiciones para TODAS las propiedades que cambiarán, incluyendo background-image y filter */
+    transition: width 0.3s ease-out, height 0.3s ease-out, background-color 0.3s ease-out, filter 0.3s ease-out, transform 0.1s linear, background-image 0.3s ease-out;
+}
+
+/* Esta es la clase que JavaScript AÑADIRÁ cuando se haga hover */
+.custom-cursor-hover-effect {
+    width: 40px; /* Tamaño más grande al hacer hover */
+    height: 40px;
+    background-color: transparent; /* Anula el color sólido para que se vea el degradado */
+    background-image: linear-gradient(to right, #4f05f2, #9d86f2); /* Degradado al hacer hover */
+    filter: blur(8px); /* Más desenfoque al hacer hover */
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height: 100vh;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.split-card{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 400px;
+  width: 300px;
+  /* IMPORTANTE: Ajusta el z-index del contenedor padre si las imágenes solapan otros elementos.
+     Si las imágenes sobresalen y quedan por debajo de otras tarjetas, el z-index de la tarjeta
+     que se escala tiene que ser mayor que el de las otras tarjetas.
+  */
+}
+
+.split-card .cards{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  /* *** EL CAMBIO CLAVE AQUÍ: REMOVER 'overflow: hidden;' *** */
+  /* overflow: hidden; */ /* ¡Comenta o borra esta línea! */
+  border-radius: 10px; /* Nota: Las esquinas redondeadas ahora serán solo del contenedor, no de la imagen al salirse */
+  box-shadow: 1px 2px 3px rgba(250,250,250,250,);
+  transition: all 0.4s cubic-bezier(.63,.15,.03,1.12);
+  /* Asegúrate de que las tarjetas individuales tengan un z-index adecuado para que se superpongan */
+  /* Los z-index que ya tienes en .card-1, .card-2, .card-3 son un buen comienzo. */
+}
+
+.split-card .cards img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  /* cursor: pointer; */
+  transition: all .4s;
+  /* Para que la imagen se vea por encima de otras tarjetas al escalarse */
+  position: relative; /* Necesario para que z-index funcione en la imagen */
+  z-index: 1; /* Un z-index base para la imagen, será sobrescrito en hover */
+	opacity: 0.9;
+	
+}
+	.split-card .cards img:hover {
+    cursor: none; /* Asegura que no aparezca el cursor de flecha por defecto al pasar sobre la imagen */
+}
+
+.split-card .card-1{
+  z-index: 3;
+  transform: rotateZ(-2deg);
+}
+
+.split-card .card-2{
+  z-index: 2;
+  transform: rotateZ(-7deg);
+  transition-delay: 0.6s;
+}
+
+.split-card .card-3{
+  z-index: 1;
+  transform: rotateY(5deg);
+  transition-delay: 0s;
+}
+
+input{
+  display: none;
+}
+
+input:checked ~ .split-card .card-1{
+  transform: translateX(-155%);
+}
+
+input:checked ~ .split-card .card-2{
+  transform: translateX(155%);
+}
+
+input:checked ~ .split-card .card-3{
+  transform: translateX(0%);
+  transition-delay: 0.6s;
+}
+
+input:checked ~ .split-card img:hover{
+  transform: scale(1.7);
+  /* *** AÑADIR ESTO PARA QUE LA IMAGEN ESCALADA ESTÉ SIEMPRE ARRIBA *** */
+  z-index: 10; /* Un valor alto para que la imagen se muestre sobre las otras tarjetas */
+}
+
+
+.back-button {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 1001; /* Por encima de todo, incluso el menú principal */
+    background-color: rgba(255, 255, 255, 0.0);
+    color: white;
+    border: 0.5px solid rgba(255, 255, 255, 0.0);
+    border-radius: 5px;
+    padding: 5px 5px;
+    font-size: 1.2em;
+    font-family: 'Bebas Neue', sans-serif;
+    opacity: 1; /* HACEMOS EL BOTÓN VISIBLE */
+    pointer-events: auto; /* HACEMOS EL BOTÓN INTERACTUABLE */
+    text-decoration: none; /* Para quitar el subrayado si es un <a> */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* El efecto de línea al hover del botón "Volver" */
+.back-button::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; /* Inicialmente sin ancho */
+    height: 3px;
+    background-image: linear-gradient(to right, #fcfcfc, ##9d86f2);
+    transition: width 0.9s ease-out, background-image 0.5s ease-in-out;
+}
+
+.back-button:hover::after {
+    width: 100%; /* El ancho completo al hover */
+    background-image: linear-gradient(to right, #4f05f2, #9d86f2); /* Cambio de degradado al hover */
+}
+.back-button:hover {
+     cursor: none; 
+	}
+	
+	

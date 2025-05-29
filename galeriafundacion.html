@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilop.css">
+    <link href="galeriaf.css" rel="stylesheet" type="text/css">
+<title>Food Festival visual</title>
+</head>
+
+	
+	<body style="cursor: none;" link="#FFFFFF">
+		
+    <input type="checkbox" id="check">
+    <div class="split-card">
+      <label for="check" class="cards card-1">
+        <img src="Afiches y post/fundacion2.jpg">
+      </label>
+		
+		
+      <label for="check" class="cards card-2">
+        <img src="Afiches y post/fundacion3.jpg">
+      </label>
+      <label for="check" class="cards card-3">
+        <img src="Afiches y post/fundacion4.jpg">
+      </label>
+    </div>
+    
+	<a href="index.html#designSubmenuContainer" class="back-button" id="backButton">← Volver</a>
+	<div class="custom-cursor"></div>
+	
+		<video autoplay muted loop id="background-video">
+        <source src="Afiches y post/portada.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+    </video>
+	<script>
+    // Esta función restablece el cursor a su estado predeterminado (cuando no hay hover)
+    function resetCursorToDefault() {
+        const cursor = document.querySelector('.custom-cursor'); // Asegúrate de obtener el cursor aquí también
+        if (cursor) {
+            cursor.classList.remove('custom-cursor-hover-effect'); // Quita la clase de hover
+            // La escala la maneja el CSS, pero la volvemos a poner por seguridad
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const cursor = document.querySelector('.custom-cursor');
+
+        // MUY IMPORTANTE: Verifica si el elemento del cursor existe en el HTML
+        if (!cursor) {
+            console.error("¡Elemento del cursor personalizado no encontrado! Asegúrate de que <div class='custom-cursor'></div> esté en tu HTML.");
+            return; // Detiene la ejecución si el cursor no se encuentra
+        }
+
+        // Función para manejar el movimiento del cursor (moverlo con el ratón)
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Efecto para elementos interactivos (enlaces, botones, etc.)
+        // Añadimos 'label' para las etiquetas de tus imágenes si estas son tus elementos clickeables
+        const hoverables = document.querySelectorAll('a, button, input[type="submit"], .cards label, .split-card .cards img');
+
+        hoverables.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.classList.add('custom-cursor-hover-effect'); // Añade la clase para el efecto hover
+                // Mantenemos la escala en 1 en JS, para que el CSS maneje el tamaño final
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.classList.remove('custom-cursor-hover-effect'); // Quita la clase de hover
+                // Reiniciamos la escala a 1
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+
+        // Llama a resetCursorToDefault al cargar la página para asegurar el estado inicial
+        resetCursorToDefault();
+    });
+</script>
+	
+</body>
+</html>

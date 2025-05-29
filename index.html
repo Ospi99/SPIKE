@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Luis Ospina</title>
+    <style>
+        /* **IMPORTANTE: Reset universal del box-sizing** */
+        html {
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        /* Fin del reset */
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: scroll; 
+            
+            /* PROPIEDADES PARA OCULTAR LA BARRA DE SCROLL */
+            body::-webkit-scrollbar {
+                display: none; 
+            }
+            html {
+                scrollbar-width: none; 
+            }
+            body {
+                -ms-overflow-style: none; 
+            }
+            /* FIN DE PROPIEDADES PARA OCULTAR LA BARRA DE SCROLL */
+
+            /* IMAGEN DE FONDO INICIAL DIRECTAMENTE EN EL BODY */
+            
+            
+            
+            /* Asegúrate de que 'Montserrat' esté disponible si lo usas en tu CSS externo */
+            /* font-family: 'Montserrat', sans-serif; */ 
+            /* color: #eee; */ /* Si no está en tu CSS externo, esto podría ser útil aquí */
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fixed-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            font-size: 3em;
+            color: white; /* Color base del texto */
+            text-align: center;
+            opacity: 0; 
+            pointer-events: auto; 
+            z-index: 10;
+            font-family: 'Bebas Neue', sans-serif;
+            
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
+            transition: text-shadow 0.4s ease-out; 
+
+            user-select: none;
+            -webkit-user-select: none; 
+            -moz-user-select: none;    
+            -ms-user-select: none;     
+        }
+
+        .fixed-text::after {
+            content: ''; 
+            position: absolute;
+            bottom: -5px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 0; 
+            height: 3px; 
+            
+            background-image: linear-gradient(to right, #fcfcfc, #9d86f2); 
+            transition: width 0.9s ease-out, background-image 0.5s ease-in-out;
+        }
+
+        .fixed-text:hover {
+            cursor: pointer; 
+        }
+
+        .fixed-text:hover::after {
+            width: 100%; 
+            background-image: linear-gradient(to right, #4f05f2, #9d86f2); 
+        }
+
+        
+
+        body {
+            cursor: none; 
+        }
+
+        .fixed-text,
+        .scroll-indicator,
+        .nav-dot {
+            cursor: none !important; 
+        }
+        
+        .custom-cursor {
+            width: 25px; 
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.7); 
+            border-radius: 50%; 
+            position: fixed; 
+            pointer-events: none; 
+            z-index: 9999; 
+            top: 0; 
+            left: 0; 
+            opacity: 1; 
+            
+            transition: width 0.3s ease-out, height 0.3s ease-out, background-color 0.3s ease-out, filter 0.3s ease-out;
+            
+            filter: blur(4px); 
+        }
+
+        .fixed-text:hover ~ .custom-cursor, 
+		
+		#backButton:hover ~ .custom-cursor,
+        .scroll-indicator:hover ~ .custom-cursor, 
+        .nav-dot:hover ~ .custom-cursor { 
+            background-color: rgba(157, 134, 242, 1.8); 
+            filter: blur(8px); 
+        }
+
+		
+		.design-submenu-container:hover ~ .custom-cursor {
+    background-color: rgba(157, 134, 242, 1.8); /* Morado/Azul */
+    filter: blur(8px);
+			
+        
+}
+
+    </style>
+    
+    <link href="portafolio.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/galeria.css">
+	<style type="text/css">
+	a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    text-decoration: none;
+}
+    </style>
+</head>
+
+<body>
+
+	<video autoplay muted loop id="background-video">
+        <source src="Afiches y post/portada.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+    </video>
+	
+	
+	
+    <div class="fixed-text" id="changingText">Luis Ospina</div>
+    
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="arrow-down"></div>
+        
+        <nav class="main-nav" id="mainNav">
+            <a href="#s1" class="nav-dot active" data-section-index="0"></a>
+            <a href="#s2" class="nav-dot" data-section-index="1"></a>
+            <a href="#s3" class="nav-dot" data-section-index="2"></a>
+            <a href="#s4" class="nav-dot" data-section-index="3"></a>
+            <a href="#s5" class="nav-dot" data-section-index="4"></a>
+        </nav>
+        
+    </div> 
+    
+    <div class="section" id="s1"></div>
+    <div class="section" id="s2"></div>
+    <div class="section" id="s3"></div>
+    <div class="section" id="s4"></div>
+    <div class="section" id="s5"></div>
+    
+    <div class="detail-sections-container" id="detailSectionsContainer">
+        <div class="detail-section" id="bioSection">
+            <h2>¡Hola!, soy Luis Ospina</h2>
+            <p>
+                Soy egresado de cine, productor multimedia y diseñador visual en proceso.
+            </p>
+            <p>
+                Por medio del lenguaje visual, busco contar historias que resuenen, inspiren y provoquen emociones. Creo firmemente que cada proyecto es una oportunidad parta innovar y aprender sobre nuevas formas de comunicar visual e interactivamente.
+            </p>
+        </div>
+
+        <div class="detail-section" id="imageInfoSection">
+            
+			<img src="fondos/herramientas.png" alt="Imagen de Inspiración">
+            
+        </div>   
+    </div>
+
+	<div class="design-submenu-container" id="designSubmenuContainer">
+    <a href="galeriasocial.html" class="submenu-button" id="btnCartelesSocial">Carteles y Social Media</a>
+    <a href="galeriafundacion.html" class="submenu-button" id="btnFestival">Food Festival</a>
+    <div id="cartelesGalleryPlaceholder"></div>
+</div>
+	
+    <button class="back-button" id="backButton">← Volver</button>
+    
+
+    <div class="custom-cursor"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    
+		
+		  <script>
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    const textElement = document.getElementById("changingText");
+    const bodyElement = document.body;
+    const scrollIndicator = document.getElementById("scrollIndicator");
+    const navDots = document.querySelectorAll('.nav-dot');
+    const mainNav = document.getElementById('mainNav');
+    const customCursor = document.querySelector('.custom-cursor');
+
+    const detailSectionsContainer = document.getElementById('detailSectionsContainer');
+    const backButton = document.getElementById('backButton');
+    const mainSections = document.querySelectorAll('.section');
+    const designSubmenuContainer = document.getElementById('designSubmenuContainer');
+    const btnCartelesSocial = document.getElementById('btnCartelesSocial');
+    const btnFestival = document.getElementById('btnFestival');
+    const submenuButtons = document.querySelectorAll('.submenu-button');
+
+    let mainScrollTriggers = [];
+    let detailScrollTriggers = [];
+
+    // Las arrays 'images' y 'textos' pueden permanecer, pero la de 'images' ya no se usará para el fondo del body
+    const images = [
+        "fondos/Texturelabs.jpg",
+        "fondos/Texturelabs2.jpg",
+        "fondos/Texturelabs.jpg",
+        "fondos/Texturelabs2.jpg",
+        "fondos/Texturelabs.jpg"
+    ];
+
+    const textos = [
+         "Luis Ospina",
+    "Diseño visual",
+    "Fotografia",
+    
+     "<a href='https://www.behance.net/spikepic' target='_blank' style='color: white; text-decoration: none;'>Audiovisual</a>",
+    
+    "<a href='https://www.instagram.com/spike.pic/' target='_blank' style='display: inline-block;'><img src='Afiches y post/insta.png' alt='Instagram' style='height: 100px; margin:10px; vertical-align: middle; cursor: none;'></a>"
+];
+
+    // Inicialización del cursor (debes mantenerla como la tenías)
+    gsap.set(customCursor, { xPercent: -50, yPercent: -50, x: window.innerWidth / 2, y: window.innerHeight / 2, opacity: 1 });
+    window.scrollTo(0, 0);
+
+    const firstImage = new Image();
+    firstImage.src = images[0];
+
+    // --- Variables y Funciones para el Cursor Personalizado ---
+    const BASE_CURSOR_COLOR = 'rgba(255, 255, 255, 0.7)';
+    const BASE_CURSOR_BLUR = 4;
+    const ORANGE_CURSOR_COLOR = 'rgba(157, 134, 242, 1.8)';
+    const ORANGE_CURSOR_BLUR = 8;
+    const PURPLE_CURSOR_COLOR = 'rgba(157, 134, 242, 1.8)';
+    const PURPLE_CURSOR_BLUR = 8;
+
+    function setCursorColor(color, blurAmount) {
+        gsap.to(customCursor, {
+            backgroundColor: color,
+            filter: `blur(${blurAmount}px)`,
+            duration: 0.3,
+            ease: "power1.out"
+        });
+    }
+
+    function resetCursorToDefault() {
+        setCursorColor(BASE_CURSOR_COLOR, BASE_CURSOR_BLUR);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        gsap.to(customCursor, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.1,
+            ease: "power2.out"
+        });
+    });
+
+    const orangeHoverElements = [
+        textElement,
+        backButton,
+        scrollIndicator,
+        ...Array.from(navDots)
+    ];
+
+    orangeHoverElements.forEach(element => {
+        if (element) {
+            element.addEventListener('mouseenter', () => setCursorColor(ORANGE_CURSOR_COLOR, ORANGE_CURSOR_BLUR));
+            element.addEventListener('mouseleave', () => resetCursorToDefault());
+        }
+    });
+
+    submenuButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('mouseenter', () => setCursorColor(PURPLE_CURSOR_COLOR, PURPLE_CURSOR_BLUR));
+            button.addEventListener('mouseleave', () => resetCursorToDefault());
+        }
+    });
+
+    // --- Fin de Variables y Funciones para el Cursor Personalizado ---
+
+
+    // Función para controlar el overflow del body
+    function setBodyScroll(enabled) {
+        if (enabled) {
+            bodyElement.style.overflowY = 'scroll';
+            bodyElement.style.overflowX = 'hidden';
+        } else {
+            bodyElement.style.overflowY = 'hidden';
+        }
+    }
+
+    function enableMainScrollTriggers() {
+        setBodyScroll(true);
+        mainSections.forEach((section, index) => {
+            const st = ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => {
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    navDots[index].classList.add('active');
+
+                    // ELIMINA O COMENTA ESTE BLOQUE:
+                    /*
+                    if (images[index]) {
+                        gsap.to(bodyElement, {
+                            backgroundImage: `url(${images[index]})`,
+                            duration: 1,
+                            ease: "power2.inOut"
+                        });
+                    }
+                    */
+
+                    gsap.to(textElement, {
+                        opacity: 0,
+                        filter: "blur(20px)",
+                        duration: 0.5,
+                        onComplete: () => {
+                             textElement.innerHTML = textos[index];
+                            gsap.to(textElement, {
+                                opacity: 1,
+                                filter: "blur(0px)",
+                                duration: 1
+                            });
+                        }
+                    });
+                },
+                onLeaveBack: () => {
+                    if (index > 0) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[index - 1].classList.add('active');
+                    } else {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[0].classList.add('active');
+                    }
+                },
+                onEnterBack: () => {
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    navDots[index].classList.add('active');
+
+                    // ELIMINA O COMENTA ESTE BLOQUE:
+                    /*
+                    if (images[index]) {
+                        gsap.to(bodyElement, {
+                            backgroundImage: `url(${images[index]})`,
+                            duration: 1,
+                            ease: "power2.inOut"
+                        });
+                    }
+                    */
+
+                    gsap.to(textElement, {
+                        opacity: 0,
+                        filter: "blur(20px)",
+                        duration: 0.5,
+                        onComplete: () => {
+                            textElement.innerHTML = textos[index];
+                            gsap.to(textElement, {
+                                opacity: 1,
+                                filter: "blur(0px)",
+                                duration: 1
+                            });
+                        }
+                    });
+                }
+            });
+            mainScrollTriggers.push(st);
+        });
+    }
+
+    function disableMainScrollTriggers() {
+        mainScrollTriggers.forEach(st => st.disable());
+        setBodyScroll(false);
+    }
+
+    function enableDetailScrollTriggers() {
+        detailSectionsContainer.style.overflowY = 'auto';
+        detailSectionsContainer.style.overflowX = 'hidden';
+    }
+
+    function disableDetailScrollTriggers() {
+        detailSectionsContainer.style.overflowY = 'hidden';
+    }
+
+    function initializeIntroAnimations() {
+        const introTimeline = gsap.timeline();
+
+        // Asegúrate de que estos elementos estén ocultos al inicio
+        gsap.set(designSubmenuContainer, { opacity: 1, filter: "blur(20px)", pointerEvents: 'none', display: 'none' });
+        gsap.set(detailSectionsContainer, { opacity: 0, pointerEvents: 'none', overflowY: 'hidden' });
+        gsap.set(textElement, { xPercent: -50, yPercent: -50 }); // Esto mantiene el texto centrado inicialmente
+
+        // NO NECESITAS ANIMAR OPACIDAD DEL BODY SI TIENES UN VIDEO FIJO DE FONDO.
+        // Si el video de fondo es lo primero que se ve, el body ya estará visible.
+        // Opcionalmente, puedes dejar esto si quieres un fade-in general de la página,
+        // pero NO debe animar el backgroundImage.
+        introTimeline.to(bodyElement, {
+             opacity: 1, // Esto es si quieres un fade in de todo el contenido, no del fondo
+             duration: 1.5,
+             ease: "power2.out",
+             onComplete: enableMainScrollTriggers
+        });
+
+
+        introTimeline.fromTo(textElement,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 1.2, ease: "back.out(1.7)" },
+            "-=0.8"
+        );
+
+        introTimeline.to(scrollIndicator, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.5");
+
+        introTimeline.fromTo(mainNav,
+            { opacity: 0, x: 50 },
+            { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
+            "-=0.5"
+        );
+
+        textElement.addEventListener('mouseenter', () => {
+            gsap.to(textElement, { scale: 1.02, yPercent: -55, duration: 0.2, ease: "power1.out" });
+        });
+
+        textElement.addEventListener('mouseleave', () => {
+            gsap.to(textElement, { scale: 1, yPercent: -50, duration: 0.2, ease: "power1.out" });
+        });
+
+        scrollIndicator.addEventListener('click', () => {
+            gsap.to(window, { duration: 1, scrollTo: { y: window.scrollY + window.innerHeight }, ease: "power2.inOut" });
+        });
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSectionId = dot.getAttribute('href');
+                const targetSection = document.querySelector(targetSectionId);
+
+                if (targetSection) {
+                    gsap.to(window, { duration: 1, scrollTo: { y: targetSection.offsetTop }, ease: "power2.inOut" });
+                }
+            });
+        });
+
+        const initialActiveDot = document.querySelector('.nav-dot[data-section-index="0"]');
+        if (initialActiveDot) {
+            initialActiveDot.classList.add('active');
+        }
+    }
+
+    firstImage.onload = () => {
+        initializeIntroAnimations();
+    };
+
+    firstImage.onerror = () => {
+        console.error("Error al cargar la imagen inicial: " + images[0] + ". Se intentará cargar la página sin esa imagen.");
+        initializeIntroAnimations();
+    };
+
+    if (firstImage.complete) {
+        initializeIntroAnimations();
+    }
+
+    // --- EVENT LISTENERS PARA LA NAVEGACIÓN PRINCIPAL Y SUBMENÚS ---
+
+    textElement.addEventListener('click', () => {
+        const currentText = textElement.textContent;
+
+        if (currentText === "Luis Ospina") {
+            disableMainScrollTriggers();
+
+            gsap.to([textElement, scrollIndicator, mainNav], {
+                opacity: 0,
+                duration: 0.5,
+                pointerEvents: 'none',
+                onComplete: () => {
+                    // Oculta el contenedor del submenú de diseño visual si está visible
+                    gsap.set(designSubmenuContainer, { opacity: 0, filter: "blur(20px)", pointerEvents: 'none', display: 'none' });
+
+                    // Muestra las secciones de detalle de Luis Ospina
+                    document.querySelectorAll('.detail-section').forEach(section => {
+                        section.style.display = 'flex'; // O el display original que tuvieran
+                    });
+
+                    gsap.to(detailSectionsContainer, {
+                        opacity: 1,
+                        duration: 0.8,
+                        pointerEvents: 'auto',
+                        onStart: () => {
+                            window.scrollTo(0, 0); // Asegúrate de que el scroll esté arriba
+                            detailSectionsContainer.scrollTop = 0; // Resetea el scroll del contenedor de detalles
+                            enableDetailScrollTriggers(); // Habilita el scroll en el contenedor de detalles
+                        },
+                        onComplete: () => {
+                            gsap.to(backButton, {
+                                opacity: 1,
+                                duration: 0.5,
+                                pointerEvents: 'auto'
+                            });
+                            resetCursorToDefault(); // Restablece el cursor
+                        }
+                    });
+                }
+            });
+        } else if (currentText === "Diseño visual") {
+            disableMainScrollTriggers(); // Deshabilita el scroll principal
+
+            gsap.to([textElement, scrollIndicator, mainNav], {
+                opacity: 0,
+                duration: 0.5,
+                pointerEvents: 'none', // Deshabilita interacciones
+                onComplete: () => {
+                    // Oculta las secciones de detalle si estaban visibles
+                    document.querySelectorAll('.detail-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    // Muestra los botones del submenú
+                    gsap.fromTo([btnCartelesSocial, btnFestival],
+                        { opacity: 0, filter: "blur(20px)", display: 'flex', pointerEvents: 'none' },
+                        { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power2.out", pointerEvents: 'auto' }
+                    );
+
+                    // Muestra el contenedor del submenú
+                    gsap.fromTo(designSubmenuContainer,
+                        { opacity: 0, filter: "blur(20px)", display: 'flex', pointerEvents: 'none' }, // Asegura display:flex antes de animar
+                        { opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power2.out", pointerEvents: 'auto',
+                          onComplete: () => {
+                              // Pequeño delay para que el cursor se restablezca después de la animación
+                              setTimeout(() => {
+                                  resetCursorToDefault();
+                              }, 50);
+                          }
+                        }
+                    );
+                    // Muestra el botón de volver
+                    gsap.to(backButton, {
+                        opacity: 1,
+                        duration: 0.5,
+                        pointerEvents: 'auto'
+                    });
+                }
+            });
+        }
+        // AÑADE ESTE BLOQUE NUEVO PARA "Fotografia"
+        else if (currentText === "Fotografia") {
+            disableMainScrollTriggers(); // Opcional: Deshabilita el scroll principal para una transición limpia
+
+            gsap.to([textElement, scrollIndicator, mainNav, detailSectionsContainer, designSubmenuContainer, backButton], {
+                opacity: 0,
+                duration: 0.5,
+                pointerEvents: 'none',
+                onComplete: () => {
+                    // Redirige a la página de la galería de fotos
+                    window.location.href = 'galeriafotos.html';
+                }
+            });
+        }
+        // FIN DEL BLOQUE NUEVO PARA "Fotografia"
+        // ... (Lógica para otras secciones como Web, Audiovisual si las tienes, irían aquí) ...
+    });
+
+
+    // Los botones del submenú AHORA DEBEN NAVEGAR DIRECTAMENTE a la página de la galería
+    // O a la URL que contenga la galería
+    btnCartelesSocial.addEventListener('click', () => {
+        console.log("Clic en Carteles y Redes sociales - Aquí iría la lógica para mostrar la galería.");
+        window.location.href = 'galeria1.html'; // ESTA ES LA RUTA QUE DEBES AJUSTAR SI ES DIFERENTE
+    });
+
+    btnFestival.addEventListener('click', () => {
+        console.log("Clic en Food Festival - Aquí iría la lógica para mostrar la galería o página.");
+        window.location.href = 'galeria1.html'; // ESTA ES LA RUTA QUE DEBES AJUSTAR SI ES DIFERENTE
+    });
+
+
+    // --- LÓGICA GLOBAL DEL BOTÓN "VOLVER" ---
+    backButton.addEventListener('click', () => {
+        disableDetailScrollTriggers(); // Deshabilita el scroll de detalles
+
+        gsap.to(backButton, {
+            opacity: 0,
+            duration: 0.5,
+            pointerEvents: 'none' // Deshabilita interacciones del botón volver
+        });
+
+        // Si estabas en el submenú de Diseño Visual, vuélvete a la vista principal
+        if (window.getComputedStyle(designSubmenuContainer).display === 'flex') {
+            gsap.to(designSubmenuContainer, {
+                opacity: 0,
+                filter: "blur(20px)",
+                duration: 0.8,
+                pointerEvents: 'none',
+                onComplete: () => {
+                    gsap.set(designSubmenuContainer, { display: 'none' }); // Oculta completamente
+                    gsap.to(detailSectionsContainer, {
+                        opacity: 0, // Oculta el contenedor de detalles (aunque no estuviera visible)
+                        duration: 0.8,
+                        pointerEvents: 'none',
+                        onComplete: () => {
+                            // Muestra los elementos de la vista principal
+                            gsap.to([textElement, scrollIndicator, mainNav], {
+                                opacity: 1,
+                                duration: 0.5,
+                                pointerEvents: 'auto',
+                                onComplete: () => {
+                                    enableMainScrollTriggers(); // Habilita el scroll principal
+                                    window.scrollTo(0, 0); // Vuelve al inicio de la página
+                                    resetCursorToDefault(); // Restablece el cursor
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        // Si estabas en la vista de detalle de "Luis Ospina"
+        else {
+            gsap.to(detailSectionsContainer, {
+                opacity: 0,
+                duration: 0.8,
+                pointerEvents: 'none',
+                onComplete: () => {
+                    // Oculta las secciones de detalle
+                    document.querySelectorAll('.detail-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    // Muestra los elementos de la vista principal
+                    gsap.to([textElement, scrollIndicator, mainNav], {
+                        opacity: 1,
+                        duration: 0.5,
+                        pointerEvents: 'auto',
+                        onComplete: () => {
+                            enableMainScrollTriggers(); // Habilita el scroll principal
+                            window.scrollTo(0, 0); // Vuelve al inicio de la página
+                            resetCursorToDefault(); // Restablece el cursor
+                        }
+                    });
+                }
+            });
+        }
+    });
+</script>
+    </body>
+</html>
